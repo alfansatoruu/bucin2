@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Halaman selamat datang interaktif dengan animasi dan musik latar">
+    <meta name="theme-color" content="#ff9a9e">
+    <title>Selamat Datang | Mulai</title>
+
+    <style>
+        /* Reset */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Custom Properties */
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #e63946;
+            --background-start: #ff9a9e;
+            --background-end: #fecfef;
+            --text-color: #6b1f1f;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Body Styling */
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Container Styles */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px var(--shadow-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 90%;
+            width: 500px;
+            position: absolute;
+        }
+
+        .container1 {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container2 {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px var(--shadow-color);
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            font-style: italic;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Heart Animation */
+        .loading-heart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            height: 80px;
+        }
+
+        .heart {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            position: relative;
+            transform: rotate(45deg);
+            animation: heartbeat 1.2s ease-in-out infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before {
+            top: -25px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: -25px;
+        }
+
+        /* Button Styles */
+        .btn {
+            font-size: 1.2rem;
+            padding: 0.8em 1.6em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 0.5rem;
+            color: white;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        .btn:focus {
+            outline: 3px solid rgba(255, 107, 107, 0.5);
+            outline-offset: 2px;
+        }
+
+        .btn-start {
+            background-color: var(--primary-color);
+        }
+
+        .btn-yes {
+            background-color: var(--primary-color);
+        }
+
+        .btn-no {
+            background-color: #adb5bd;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-color);
+        }
+
+        /* Animations */
+        @keyframes heartbeat {
+            0% {
+                transform: rotate(45deg) scale(1);
+            }
+            25% {
+                transform: rotate(45deg) scale(1.1);
+            }
+            50% {
+                transform: rotate(45deg) scale(1);
+            }
+            75% {
+                transform: rotate(45deg) scale(1.2);
+            }
+            100% {
+                transform: rotate(45deg) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .btn {
+                font-size: 1rem;
+                padding: 0.6em 1.2em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container container1" role="main">
+        <h1>Selamat Datang!</h1>
+        <button id="startButton" class="btn btn-start" aria-label="Mulai aplikasi">Mulai</button>
+        <audio id="background-audio" src="Bersatu_Karena_Rindu.mp3" loop preload="auto">
+            <span class="sr-only">Musik latar belakang tidak dapat dimainkan di perangkat Anda.</span>
+        </audio>
+    </div>
+
+    <div class="container container2" role="main">
+        <div class="loading-heart" aria-hidden="true">
+            <div class="heart"></div>
+        </div>
+        <h1>Mau gak jadi pacarku?</h1>
+        <div role="group" aria-label="Pilihan jawaban">
+            <button class="btn btn-yes" onclick="accepted()" aria-label="Terima ajakan">Mau</button>
+            <button class="btn btn-no" onclick="declined(this)" onmouseover="declined(this)" aria-label="Tolak ajakan">Tidak</button>
+        </div>
+        <p id="response-message">Cie gak bisa nolak 💕</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('background-audio');
+            const startButton = document.getElementById('startButton');
+            const container1 = document.querySelector('.container1');
+            const container2 = document.querySelector('.container2');
+            
+            // Preload audio
+            audio.load();
+
+            // Handle start button click
+            startButton.addEventListener('click', async () => {
+                try {
+                    await audio.play();
+                } catch (error) {
+                    console.warn('Audio autoplay failed:', error);
+                }
+                
+                transitionContainers();
+            });
+
+            // Handle keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && document.activeElement === startButton) {
+                    startButton.click();
+                }
+            });
+
+            function transitionContainers() {
+                container1.style.opacity = '0';
+                container1.style.transform = 'translateY(-20px)';
+
+                setTimeout(() => {
+                    container1.style.display = 'none';
+                    container2.style.display = 'block';
+                    
+                    // Force reflow
+                    container2.offsetHeight;
+                    
+                    container2.style.opacity = '1';
+                    container2.style.transform = 'translateY(0)';
+                }, 500);
+            }
+        });
+
+        // Handle acceptance
+        function accepted() {
+            const message = document.getElementById('response-message');
+            const noButton = document.querySelector('.btn-no');
+            
+            message.style.display = 'block';
+            noButton.style.display = 'none';
+            
+            // Add confetti effect
+            createConfetti();
+        }
+
+        // Handle decline/avoidance
+        function declined(button) {
+            const maxX = window.innerWidth - button.offsetWidth;
+            const maxY = window.innerHeight - button.offsetHeight;
+            
+            // Ensure button stays within viewport
+            const randomX = Math.max(0, Math.min(maxX, Math.random() * maxX));
+            const randomY = Math.max(0, Math.min(maxY, Math.random() * maxY));
+            
+            button.style.position = 'fixed';
+            button.style.left = `${randomX}px`;
+            button.style.top = `${randomY}px`;
+        }
+
+        // Simple confetti effect
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.cssText = `
+                    position: fixed;
+                    width: 10px;
+                    height: 10px;
+                    background: ${['#ff6b6b', '#e63946', '#ff9a9e'][Math.floor(Math.random() * 3)]};
+                    left: ${Math.random() * 100}vw;
+                    top: -10px;
+                    opacity: 1;
+                    transform: rotate(${Math.random() * 360}deg);
+                    pointer-events: none;
+                `;
+
+                document.body.appendChild(confetti);
+
+                const animation = confetti.animate([
+                    { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: 1500 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
