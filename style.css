@@ -1,0 +1,194 @@
+
+/* Reset */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Custom Properties */
+:root {
+    --primary-color: #ff6b6b;
+    --secondary-color: #e63946;
+    --background-start: #ff9a9e;
+    --background-end: #fecfef;
+    --text-color: #6b1f1f;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Body Styling */
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--background-start), var(--background-end));
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Container Styles */
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px var(--shadow-color);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 90%;
+    width: 500px;
+    position: absolute;
+}
+
+.container1 {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.container2 {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Typography */
+h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px var(--shadow-color);
+}
+
+p {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    font-style: italic;
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Heart Animation */
+.loading-heart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    height: 80px;
+}
+
+.heart {
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    position: relative;
+    transform: rotate(45deg);
+    animation: heartbeat 1.2s ease-in-out infinite;
+}
+
+.heart::before,
+.heart::after {
+    content: '';
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart::before {
+    top: -25px;
+    left: 0;
+}
+
+.heart::after {
+    top: 0;
+    left: -25px;
+}
+
+/* Button Styles */
+.btn {
+    font-size: 1.2rem;
+    padding: 0.8em 1.6em;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 0.5rem;
+    color: white;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.btn:focus {
+    outline: 3px solid rgba(255, 107, 107, 0.5);
+    outline-offset: 2px;
+}
+
+.btn-start {
+    background-color: var(--primary-color);
+}
+
+.btn-yes {
+    background-color: var(--primary-color);
+}
+
+.btn-no {
+    background-color: #adb5bd;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-color);
+}
+
+/* Animations */
+@keyframes heartbeat {
+    0% {
+        transform: rotate(45deg) scale(1);
+    }
+    25% {
+        transform: rotate(45deg) scale(1.1);
+    }
+    50% {
+        transform: rotate(45deg) scale(1);
+    }
+    75% {
+        transform: rotate(45deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Mobile Optimization */
+@media (max-width: 480px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 0.6em 1.2em;
+    }
+}

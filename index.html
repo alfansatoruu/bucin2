@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +10,17 @@
     <title>Selamat Datang | Mulai</title>
 
     <style>
-        /* Reset */
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #e63946;
+            --background-start: #ff9a9e;
+            --background-end: #fecfef;
+            --text-color: #6b1f1f;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --white-alpha: rgba(255, 255, 255, 0.9);
+            --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         *,
         *::before,
         *::after {
@@ -18,17 +29,6 @@
             box-sizing: border-box;
         }
 
-        /* Custom Properties */
-        :root {
-            --primary-color: #ff6b6b;
-            --secondary-color: #e63946;
-            --background-start: #ff9a9e;
-            --background-end: #fecfef;
-            --text-color: #6b1f1f;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-        }
-
-        /* Body Styling */
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, var(--background-start), var(--background-end));
@@ -39,18 +39,27 @@
             color: var(--text-color);
             text-align: center;
             overflow: hidden;
+            margin: 0;
+            padding: 1rem;
         }
 
-        /* Container Styles */
         .container {
-            background: rgba(255, 255, 255, 0.9);
+
+            background: var(--white-alpha);
             padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 8px 32px var(--shadow-color);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s var(--transition-timing);
             max-width: 90%;
             width: 500px;
             position: absolute;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .container.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .container1 {
@@ -60,11 +69,8 @@
 
         .container2 {
             display: none;
-            opacity: 0;
-            transform: translateY(20px);
         }
 
-        /* Typography */
         h1 {
             font-size: clamp(2rem, 5vw, 3rem);
             color: var(--secondary-color);
@@ -72,15 +78,19 @@
             text-shadow: 2px 2px 4px var(--shadow-color);
         }
 
+        .message-container {
+            min-height: 60px;
+            margin-top: 1rem;
+        }
+
         p {
             font-size: 1.2rem;
             margin-top: 1.5rem;
             font-style: italic;
             display: none;
-            animation: fadeIn 0.5s ease-out;
+            animation: fadeIn 0.5s ease-out forwards;
         }
 
-        /* Heart Animation */
         .loading-heart {
             display: flex;
             justify-content: center;
@@ -118,8 +128,19 @@
             left: -25px;
         }
 
-        /* Button Styles */
+        /* Tambahkan style baru untuk button container */
+        .button-container {
+            left: 20px;
+            position: relative;
+            min-height: 60px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+
         .btn {
+
+            align-items: center;
             font-size: 1.2rem;
             padding: 0.8em 1.6em;
             border: none;
@@ -131,11 +152,17 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             box-shadow: 0 4px 15px var(--shadow-color);
+            position: relative;
         }
 
         .btn:focus {
             outline: 3px solid rgba(255, 107, 107, 0.5);
             outline-offset: 2px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-color);
         }
 
         .btn-start {
@@ -147,39 +174,50 @@
         }
 
         .btn-no {
-            background-color: #adb5bd;
+            background-color: #636d76;
+            position: absolute;
+            /* Ubah ke absolute untuk container relatif */
+            transition: all 0.3s ease;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--shadow-color);
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
         }
 
-        /* Animations */
         @keyframes heartbeat {
-            0% {
+
+            0%,
+            100% {
                 transform: rotate(45deg) scale(1);
             }
+
             25% {
                 transform: rotate(45deg) scale(1.1);
             }
+
             50% {
                 transform: rotate(45deg) scale(1);
             }
+
             75% {
                 transform: rotate(45deg) scale(1.2);
-            }
-            100% {
-                transform: rotate(45deg) scale(1);
             }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Accessibility */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -191,7 +229,6 @@
             border: 0;
         }
 
-        /* Mobile Optimization */
         @media (max-width: 480px) {
             .container {
                 padding: 1.5rem;
@@ -202,14 +239,28 @@
                 padding: 0.6em 1.2em;
             }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .heart {
+                animation: none;
+            }
+
+            .btn {
+                transition: none;
+            }
+
+            .container {
+                transition: opacity 0.3s ease;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="container container1" role="main">
+    <div class="container container1 active" role="main">
         <h1>Selamat Datang!</h1>
         <button id="startButton" class="btn btn-start" aria-label="Mulai aplikasi">Mulai</button>
-        <audio id="background-audio" src="Bersatu_Karena_Rindu.mp3" loop preload="auto">
+        <audio id="background-audio" src="lucu.mp3" loop preload="auto">
             <span class="sr-only">Musik latar belakang tidak dapat dimainkan di perangkat Anda.</span>
         </audio>
     </div>
@@ -219,114 +270,151 @@
             <div class="heart"></div>
         </div>
         <h1>Mau gak jadi pacarku?</h1>
-        <div role="group" aria-label="Pilihan jawaban">
-            <button class="btn btn-yes" onclick="accepted()" aria-label="Terima ajakan">Mau</button>
-            <button class="btn btn-no" onclick="declined(this)" onmouseover="declined(this)" aria-label="Tolak ajakan">Tidak</button>
+        <div class="button-container" role="group" aria-label="Pilihan jawaban">
+            <button class="btn btn-yes" data-action="accept" aria-label="Terima ajakan">Mau</button>
+            <button class="btn btn-no" data-action="decline" aria-label="Tolak ajakan">Tidak</button>
         </div>
-        <p id="response-message">Cie gak bisa nolak 💕</p>
+        <div class="message-container">
+            <p id="response-message">Cie gak bisa nolak 💕</p>
+        </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const audio = document.getElementById('background-audio');
-            const startButton = document.getElementById('startButton');
-            const container1 = document.querySelector('.container1');
-            const container2 = document.querySelector('.container2');
-            
-            // Preload audio
-            audio.load();
+        class InteractiveWelcome {
+            constructor() {
+                this.audio = document.getElementById('background-audio');
+                this.container1 = document.querySelector('.container1');
+                this.container2 = document.querySelector('.container2');
+                this.buttonContainer = document.querySelector('.button-container');
+                this.noAttempts = 0;
+                this.messages = [
+                    "Yakin nih gak mau? 😊",
+                    "Masih mau nolak? 🤔",
+                    "Ayo dong terima aja 😅",
+                    "Susah ya mencet tombol 'Mau' nya? 😂",
+                    "Capek kan ngejar tombolnya? 😌",
+                    "Cie masih berusaha mencet Tidak 💕",
+                    "Udah ditakdirkan nih kita 🥰",
+                    "Cie gak bisa nolak 💕"
+                ];
 
-            // Handle start button click
-            startButton.addEventListener('click', async () => {
+                this.bindEvents();
+            }
+
+            bindEvents() {
+                document.getElementById('startButton').addEventListener('click', () => this.start());
+                document.querySelector('[data-action="accept"]').addEventListener('click', () => this.accept());
+
+                const declineButton = document.querySelector('[data-action="decline"]');
+                declineButton.addEventListener('click', () => this.decline(declineButton));
+                declineButton.addEventListener('mouseover', () => this.decline(declineButton));
+
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && document.activeElement.classList.contains('btn')) {
+                        document.activeElement.click();
+                    }
+                });
+            }
+
+            async start() {
                 try {
-                    await audio.play();
+                    await this.audio.play();
                 } catch (error) {
                     console.warn('Audio autoplay failed:', error);
                 }
-                
-                transitionContainers();
-            });
 
-            // Handle keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && document.activeElement === startButton) {
-                    startButton.click();
-                }
-            });
+                this.transitionContainers();
+            }
 
-            function transitionContainers() {
-                container1.style.opacity = '0';
-                container1.style.transform = 'translateY(-20px)';
+            transitionContainers() {
+                this.container1.classList.remove('active');
 
                 setTimeout(() => {
-                    container1.style.display = 'none';
-                    container2.style.display = 'block';
-                    
-                    // Force reflow
-                    container2.offsetHeight;
-                    
-                    container2.style.opacity = '1';
-                    container2.style.transform = 'translateY(0)';
+                    this.container1.style.display = 'none';
+                    this.container2.style.display = 'block';
+
+                    requestAnimationFrame(() => {
+                        this.container2.classList.add('active');
+                    });
                 }, 500);
             }
-        });
 
-        // Handle acceptance
-        function accepted() {
-            const message = document.getElementById('response-message');
-            const noButton = document.querySelector('.btn-no');
-            
-            message.style.display = 'block';
-            noButton.style.display = 'none';
-            
-            // Add confetti effect
-            createConfetti();
-        }
+            accept() {
+                alert("Surat dari hati! :)");
+                window.location.href = "https://alfansatoruu.github.io/amplop/";
+            }
 
-        // Handle decline/avoidance
-        function declined(button) {
-            const maxX = window.innerWidth - button.offsetWidth;
-            const maxY = window.innerHeight - button.offsetHeight;
-            
-            // Ensure button stays within viewport
-            const randomX = Math.max(0, Math.min(maxX, Math.random() * maxX));
-            const randomY = Math.max(0, Math.min(maxY, Math.random() * maxY));
-            
-            button.style.position = 'fixed';
-            button.style.left = `${randomX}px`;
-            button.style.top = `${randomY}px`;
-        }
+            decline(button) {
+                // Dapatkan dimensi dan posisi container
+                const containerRect = this.buttonContainer.getBoundingClientRect();
+                const buttonRect = button.getBoundingClientRect();
 
-        // Simple confetti effect
-        function createConfetti() {
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.style.cssText = `
-                    position: fixed;
-                    width: 10px;
-                    height: 10px;
-                    background: ${['#ff6b6b', '#e63946', '#ff9a9e'][Math.floor(Math.random() * 3)]};
-                    left: ${Math.random() * 100}vw;
-                    top: -10px;
-                    opacity: 1;
-                    transform: rotate(${Math.random() * 360}deg);
-                    pointer-events: none;
-                `;
+                // Hitung batas area yang diperbolehkan
+                const maxX = containerRect.width - buttonRect.width;
+                const maxY = containerRect.height - buttonRect.height;
 
-                document.body.appendChild(confetti);
+                // Generate posisi random dalam batas container
+                const randomX = Math.max(0, Math.min(maxX, Math.random() * maxX));
+                const randomY = Math.max(0, Math.min(maxY, Math.random() * maxY));
 
-                const animation = confetti.animate([
-                    { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
-                    { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-                ], {
-                    duration: 1500 + Math.random() * 1000,
-                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-                });
+                // Terapkan posisi baru
+                button.style.position = 'absolute';
+                button.style.left = `${randomX}px`;
+                button.style.top = `${randomY}px`;
 
-                animation.onfinish = () => confetti.remove();
+                this.noAttempts++;
+                if (this.noAttempts >= 3) {
+                    const messageIndex = Math.min(Math.floor(this.noAttempts / 3), this.messages.length - 1);
+                    const responseMessage = document.getElementById('response-message');
+                    responseMessage.textContent = this.messages[messageIndex];
+                    responseMessage.style.display = 'block';
+
+                    if (messageIndex === this.messages.length - 1) {
+                        setTimeout(() => this.createConfetti(), 1500);
+                    }
+                }
+            }
+
+            createConfetti() {
+                const colors = ['#ff6b6b', '#e63946', '#ff9a9e'];
+                const confettiCount = 50;
+
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.opacity = '1';
+
+                    document.body.appendChild(confetti);
+
+                    const animation = confetti.animate([
+                        {
+                            transform: 'translate(0, 0) rotate(0deg)',
+                            opacity: 1
+                        },
+                        {
+                            transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 360}deg)`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: 1500 + Math.random() * 1000,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    });
+
+                    animation.onfinish = () => confetti.remove();
+                }
             }
         }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            new InteractiveWelcome();
+        });
     </script>
-    <script src="script.js"></script>
 </body>
+
 </html>
